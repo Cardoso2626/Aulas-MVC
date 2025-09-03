@@ -2,6 +2,7 @@ package br.com.fiap.spring_mvc.service;
 
 import br.com.fiap.spring_mvc.entity.Livro;
 import br.com.fiap.spring_mvc.repository.LivroRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,5 +29,9 @@ public class LivroService {
 
     public void deleteLivro(Livro livro){
         livroRepository.delete(livro);
+    }
+
+    public void updateLivro(@Valid Livro livro) {
+
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -40,7 +41,30 @@ public class LivroController {
             model.addAttribute("categoriaLista", Arrays.asList(Categoria.values()));
             return "livroCadastro";
         }
+        if(livro.getId() == null){
+            livroService.createLivro(livro);
+
+        }else{
+            livroService.updateLivro(livro);
+        }
         livroService.createLivro(livro);
         return listarLivros(model);
     }
+    @GetMapping("/cadastro/{id}")
+    public String cadastroLivro(@PathVariable Long id, Model model){
+        Livro livro = livroService.readLivro(id);
+        if(livro == null){
+            listarLivros(model);
+        }
+        model.addAttribute("livro", livro);
+        model.addAttribute("livro", new Livro());
+        return "livroCadastro";
+    }
+
+    @GetMapping("deletar/{id}")
+    public String deletarLivro(@PathVariable Long id, Model model){
+        livroService.deleteLivro(id);
+        return listarLivros(model);
+    }
+
 }
